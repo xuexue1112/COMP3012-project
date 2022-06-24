@@ -41,19 +41,26 @@ let remindersController = {
   },
 
   update: (req, res) => {
-    // implement this code
-    const id = req.params.id
-      let updateDatabase = {}
-      updatedDatabase.title = req.body.title
-      updatedDatabase.prescription = req.body.prescription
-      updatedDatabase.completed = false
-      await database.findByIdAndUpdate(id, updatedUser, function(err, updatedData){
-        res.redirect("/reminders");   
-  });
-},
+    let reminderToFind = req.params.id;
+    let searchResult = database.cindy.reminders.find(function (reminder) {
+      return reminder.id == reminderToFind;
+    });
+    searchResult["title"] = req.body.title;
+    searchResult["description"] = req.body.description;
+    searchResult["completed"] = req.body.completed == "true";
+    res.render("reminder/edit", { reminderItem: searchResult });
+  },
 
   delete: (req, res) => {
-    // Implement this code
+    let reminderToFind = req.params.id;
+    let searchResult = database.cindy.reminders.find(function (reminder) {
+      return reminder.id == reminderToFind;
+    });
+    let index = database.cindy.reminders.indexOf(searchResult);
+    if (index !== -1) {
+      database.cindy.reminders.splice(index, 1);
+    }
+    res.redirect("/reminders");
   },
 };
 
