@@ -9,8 +9,4 @@ let Database = {
   },
 };
 
-let Database2 = [
-  { name: "Michelle", email: "123@hotmail.com", pssword: "123" },
-];
-
 module.exports = Database;
