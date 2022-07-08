@@ -5,7 +5,7 @@ const GitHubStrategy = require("passport-github").Strategy;
 const githubLogin = new GitHubStrategy(
   {
     clientID: "52752e0c5b74b74dce2b",
-    clientSecret: "c77b8a1e0eba384142aca5eb66dc92e2e6236964",
+    clientSecret: "REMOVEDANDDELETED",
     callbackURL: "http://localhost:3001/github-login-callback",
   },
   function (accessToken, refreshToken, profile, cb) {
