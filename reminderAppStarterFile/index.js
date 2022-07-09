@@ -5,7 +5,6 @@ const ejsLayouts = require("express-ejs-layouts");
 const reminderController = require("./controller/reminder_controller");
 const authController = require("./controller/auth_controller");
 const passport = require("passport");
-const LocalStrategy = require("passport-local");
 const session = require("express-session");
 const { ensureAuthenticated } = require("./middleware/checkAuth");
 
@@ -25,18 +24,6 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-// passport.use(
-//   new LocalStrategy(
-//     {
-//       usernameField: "email",
-//       passwordField: "password",
-//     },
-//     (email, password, done) => {
-//       const user = userController.getUserByEmailAndPassword(email, password);
-//       return user ? done(null, user) : done(null, false, { message: "Error" });
-//     }
-//   )
-// );
 
 app.set("view engine", "ejs");
 
@@ -77,6 +64,16 @@ app.post(
     successRedirect: "/reminders",
     failureRedirect: "/login",
   })
+);
+
+app.get("/github-login", passport.authenticate("github"));
+app.get(
+  "/github-login-callback",
+  passport.authenticate("github", { failureRedirect: "/login" }),
+  function (req, res) {
+    // Successful authentication, redirect home.
+    res.redirect("/reminders");
+  }
 );
 
 app.listen(3001, function () {
