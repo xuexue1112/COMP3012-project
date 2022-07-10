@@ -1,0 +1,15 @@
+<div class="container">
+  Hello <%= currentUser %> <br />
+  Current Sessions: <br />
+  <ul>
+    <% Object.keys(sessionInfo).forEach((key) => { %>
+    <li>
+      <form action="/sessionRevoke" method="POST">
+        <input type="hidden" name="sessionIdToRevoke" value="<%= key %>" />
+        <button type="submit">Revoke Session</button>
+      </form>
+      <%= key %> - <%= sessionInfo[key] %>
+    </li>
+    <% }); %>
+  </ul>
+</div>

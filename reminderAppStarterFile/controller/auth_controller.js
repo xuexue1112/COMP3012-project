@@ -1,4 +1,4 @@
-let database = require("../database");
+let userController = require("../controller/user_controller");
 let passport = require("../middleware/passport");
 let passportGithub = require("../middleware/passport-github");
 
@@ -22,6 +22,21 @@ let authController = {
 
   registerSubmit: (req, res) => {
     // implement
+  },
+
+  sessionRevoke: (req, res) => {
+    let userId = JSON.parse(
+      req.sessionStore.sessions[req.body.sessionIdToRevoke]
+    )["passport"]["user"];
+    userController.invalidateUserSession(userId);
+    res.redirect("/admin");
+  },
+
+  adminManage: (req, res) => {
+    res.render("auth/admin", {
+      sessionInfo: req.sessionStore.sessions,
+      currentUser: req.user.name,
+    });
   },
 };
 

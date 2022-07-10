@@ -1,5 +1,18 @@
 const database = [
-  { id: 1, name: "Test", email: "test@test.com", password: "test" },
+  {
+    id: 0,
+    name: "Admin",
+    email: "admin@test.com",
+    password: "admin",
+    role: "admin",
+  },
+  {
+    id: 1,
+    name: "Test",
+    email: "test@test.com",
+    password: "test",
+    role: "user",
+  },
 ];
 
 const users = {

@@ -6,7 +6,11 @@ const reminderController = require("./controller/reminder_controller");
 const authController = require("./controller/auth_controller");
 const passport = require("passport");
 const session = require("express-session");
-const { ensureAuthenticated } = require("./middleware/checkAuth");
+const {
+  ensureAuthenticated,
+  forwardAuthenticated,
+  ensureAuthenticatedAdmin,
+} = require("./middleware/checkAuth");
 
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -55,7 +59,7 @@ app.post(
 
 // Fix this to work with passport! The registration does not need to work, you can use the fake database for this.
 app.get("/register", authController.register);
-app.get("/login", authController.login);
+app.get("/login", forwardAuthenticated, authController.login);
 app.get("/logout", authController.logout);
 app.post("/register", authController.registerSubmit);
 app.post(
@@ -66,6 +70,8 @@ app.post(
   })
 );
 
+app.post("/sessionRevoke", authController.sessionRevoke);
+
 app.get("/github-login", passport.authenticate("github"));
 app.get(
   "/github-login-callback",
@@ -75,6 +81,8 @@ app.get(
     res.redirect("/reminders");
   }
 );
+
+app.get("/admin", ensureAuthenticatedAdmin, authController.adminManage);
 
 app.listen(3001, function () {
   console.log(

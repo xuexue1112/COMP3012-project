@@ -37,8 +37,16 @@ const isUserValid = (user, password) => {
   return user.password === password;
 };
 
+const invalidateUserSession = (userId) => {
+  let user = getUserById(userId);
+  if (user) {
+    user.revokeSession = true;
+  }
+};
+
 module.exports = {
   getUserById,
   getUserByEmailAndPassword,
   findOrCreateGithubUser,
+  invalidateUserSession,
 };
